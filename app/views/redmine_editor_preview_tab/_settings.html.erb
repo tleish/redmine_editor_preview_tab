@@ -1,0 +1,7 @@
+<% settings = {} unless settings.is_a? Hash %>
+
+<div>
+  <%= hidden_field_tag 'settings[enabled]', true %>
+  <%= check_box_tag 'settings[hide_default_preview]', true, !!settings[:hide_default_preview] %>
+  Disable/Hide Redmine default preview
+</div>

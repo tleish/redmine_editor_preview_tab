@@ -1,0 +1,15 @@
+<%
+   if content_for(:header_tags).present? && content_for(:header_tags).include?('/jstoolbar/')
+     content_for :header_tags do
+        javascript_include_tag('redmine_editor_preview_tab.js', plugin: 'redmine_editor_preview_tab') + "\n" +
+        stylesheet_link_tag('redmine_editor_preview_tab.css', plugin: 'redmine_editor_preview_tab') + "\n"
+     end
+
+     if Setting.plugin_redmine_editor_preview_tab[:hide_default_preview]
+      content_for :header_tags do
+        stylesheet_link_tag('redmine_editor_preview_tab_hide.css', plugin: 'redmine_editor_preview_tab')
+      end
+     end
+
+   end
+-%>
