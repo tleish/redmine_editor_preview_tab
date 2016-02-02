@@ -1,5 +1,3 @@
-.preview { padding-left: 0px!important; }
-
 .wiki-edit { clear:both; float: left; }
 
 .wiki-preview {
@@ -22,7 +20,7 @@
 .jstEditor.preview .wiki-edit { display: none; }
 .jstEditor.preview .wiki-preview { display: inline; }
 
-.jstEditor-preview-header { clear: both; float: left; }
+.jstEditor-preview-header { display: inline-block; width: 100%; }
 .jstEditor-preview-header ul {
   list-style: none;
   padding: 0;
