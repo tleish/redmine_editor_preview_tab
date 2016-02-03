@@ -11,13 +11,14 @@ var RedmineWikiTabPreview = RedmineWikiTabPreview || {};
  * @desc Text labels
  */
 
-RedmineWikiTabPreview.Text = {
+RedmineWikiTabPreview.Text = RedmineWikiTabPreview.Text || {
   NO_PREVIEW: 'Nothing to preview',
   PREVIEW_DIVS: {
     description: 'Description',
     notes: 'Notes',
     preview: 'Preview',
-    text: 'Preview'
+    text: 'Preview',
+    write: 'Write'
   }
 };
 
@@ -26,12 +27,12 @@ RedmineWikiTabPreview.Text = {
  * @desc Renders Elements
  * @methods draw()
  */
-RedmineWikiTabPreview.Elements = (function() {
+RedmineWikiTabPreview.Elements = (function(Text) {
   var $textArea;
   var $editor;
   var $buttonsHtml = '<div class="jstEditor-preview-header"><ul>' +
-    '<li class="active"><a href="#" data-type="write">Write</a></li>' +
-    '<li><a href="#" data-type="preview">Preview</a></li></ul></div>' +
+    '<li class="active"><a href="#" data-type="write">'  + Text.PREVIEW_DIVS.write + '</a></li>' +
+    '<li><a href="#" data-type="preview">'  + Text.PREVIEW_DIVS.preview + '</a></li></ul></div>' +
     '</ul></div>';
 
   var init = function(editor) {
@@ -63,7 +64,7 @@ RedmineWikiTabPreview.Elements = (function() {
     init: init,
     draw: draw
   };
-})();
+})(RedmineWikiTabPreview.Text);
 
 /**
  * @class PreviewHtml
