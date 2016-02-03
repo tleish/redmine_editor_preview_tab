@@ -1,15 +1,28 @@
 <%
    if content_for(:header_tags).present? && content_for(:header_tags).include?('/jstoolbar/')
-     content_for :header_tags do
-        javascript_include_tag('redmine_editor_preview_tab.js', plugin: 'redmine_editor_preview_tab') + "\n" +
-        stylesheet_link_tag('redmine_editor_preview_tab.css', plugin: 'redmine_editor_preview_tab') + "\n"
-     end
+     content_for :header_tags do %>
+      <script type="text/javascript" charset="utf-8">
+        var RedmineWikiTabPreview = RedmineWikiTabPreview || {};
+        RedmineWikiTabPreview.Text = RedmineWikiTabPreview.Text || {
+            NO_PREVIEW: '<%= l(:label_no_preview) %>',
+            PREVIEW_DIVS: {
+              description: '<%= l(:field_description) %>',
+              notes: '<%= l(:label_preview) %>',
+              preview: '<%= l(:description_notes) %>',
+              write: '<%= l(:label_write) %>',
+              text: '<%= l(:label_preview) %>'
+            }
+          };
+      </script>
+      <%= javascript_include_tag('redmine_editor_preview_tab.js', plugin: 'redmine_editor_preview_tab') %>
+      <%= stylesheet_link_tag('redmine_editor_preview_tab.css', plugin: 'redmine_editor_preview_tab') %>
+  <% end
 
      if Setting.plugin_redmine_editor_preview_tab[:hide_default_preview]
       content_for :header_tags do
-        stylesheet_link_tag('redmine_editor_preview_tab_hide.css', plugin: 'redmine_editor_preview_tab')
+          stylesheet_link_tag('redmine_editor_preview_tab_hide.css', plugin: 'redmine_editor_preview_tab')
       end
      end
 
    end
--%>
+%>
