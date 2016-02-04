@@ -1,4 +1,4 @@
 # English strings go here for Rails i18n
 en:
-  label_no_preview: Nothing to preview
   label_write: Write
+  label_no_preview: Nothing to preview
