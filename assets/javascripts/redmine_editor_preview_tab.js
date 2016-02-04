@@ -12,6 +12,7 @@ var RedmineWikiTabPreview = RedmineWikiTabPreview || {};
  */
 
 RedmineWikiTabPreview.Text = RedmineWikiTabPreview.Text || {
+  NO_PREVIEW: 'Nothing to preview',
   PREVIEW_DIVS: {
     description: 'Description',
     notes: 'Notes',
