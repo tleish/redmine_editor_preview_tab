@@ -66,53 +66,11 @@ RedmineWikiTabPreview.Elements = (function(Text) {
 })(RedmineWikiTabPreview.Text);
 
 /**
- * @class PreviewHtml
- * @desc Gets Preview Html from DOM
- * @methods draw()
- */
-RedmineWikiTabPreview.PreviewHtml = (function(Text) {
-  var $preview;
-
-  var init = function(preview) {
-    $preview = preview;
-    return this;
-  };
-
-  var get = function() {
-    return previewHtmlEle().html() || '';
-  };
-
-  // private
-
-  var previewHtmlEle = function() {
-    return $preview.find(selectorString());
-  };
-
-  var selectorString = function() {
-    if($('.wiki-edit').length === 1){
-      return '.preview';
-    }
-    return selectorMultiplePreview();
-  };
-
-  var selectorMultiplePreview = function() {
-    var type = $preview.data('type');
-    var legend = Text.PREVIEW_DIVS[type];
-    return '.preview:has(legend:contains(' + legend + '))';
-  };
-
-  return {
-    init: init,
-    get: get
-  };
-})(RedmineWikiTabPreview.Text);
-
-/**
  * @class View
  * @desc Updates preview html
  * @methods draw()
  */
-RedmineWikiTabPreview.View = (function(PreviewHtml, Text) {
+RedmineWikiTabPreview.View = (function(Text) {
   var $preview;
 
   var init = function(preview, original_preview) {
@@ -122,8 +80,7 @@ RedmineWikiTabPreview.View = (function(PreviewHtml, Text) {
   };
 
   var update = function() {
-    var html = PreviewHtml.init($original_preview).get()
-      .replace(/<legend>[^>]*>/g, '').trim();
+    var html = original_preview_html();
     if (html.length === 0) {
       html = Text.NO_PREVIEW;
     }
@@ -131,11 +88,18 @@ RedmineWikiTabPreview.View = (function(PreviewHtml, Text) {
     return this;
   };
 
+  var original_preview_html = function(){
+    return $original_preview
+      .find('.preview')
+      .html()
+      .replace(/<legend>[^>]*>/g, '').trim();
+  };
+
   return {
     init: init,
     update: update
   };
-})(RedmineWikiTabPreview.PreviewHtml, RedmineWikiTabPreview.Text);
+})(RedmineWikiTabPreview.Text);
 
 /**
  * @class Ajax
@@ -165,16 +129,25 @@ RedmineWikiTabPreview.Ajax = (function(View) {
   // Overide main submitPreview method
   var submitPreview = function(url, form, target) {
     $.ajax({
-      url: url + '&editor_preview_tab=1',
+      url: url,
       type: 'post',
-      data: $('#' + form).serialize(),
-      success: function(data) {
-        var preview = $('<div />')
-          .data({type: $preview.data('type')})
-          .html(data);
-        View.init($preview, preview).update();
-      }
+      data: submitPreviewData(),
+      success: submitPreviewSuccess
     });
+  };
+
+  var submitPreviewData = function() {
+    var ENSURE_PREVIEW = ' ';
+    return $.param(textarea()) + ENSURE_PREVIEW
+  };
+
+  var submitPreviewSuccess = function(data) {
+    var preview = $('<div />').html(data);
+    View.init($preview, preview).update();
+  };
+
+  var textarea = function(){
+    return $preview.closest('.jstEditor').find('textarea');
   };
 
   return {
