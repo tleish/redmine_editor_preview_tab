@@ -12,7 +12,6 @@ var RedmineWikiTabPreview = RedmineWikiTabPreview || {};
  */
 
 RedmineWikiTabPreview.Text = RedmineWikiTabPreview.Text || {
-  NO_PREVIEW: 'Nothing to preview',
   PREVIEW_DIVS: {
     description: 'Description',
     notes: 'Notes',
@@ -80,18 +79,13 @@ RedmineWikiTabPreview.PreviewHtml = (function(Text) {
   };
 
   var get = function() {
-    var $preview = previewHtmlEle($preview);
-    return $preview.html() || '';
+    return previewHtmlEle().html() || '';
   };
 
   // private
 
   var previewHtmlEle = function() {
-    var $form = $preview.closest('form');
-    if ($form.attr('id').match(/journal/)) {
-      return $form.find(selectorString());
-    }
-    return $('#preview ' + selectorString());
+    return $preview.find(selectorString());
   };
 
   var selectorString = function() {
@@ -121,13 +115,14 @@ RedmineWikiTabPreview.PreviewHtml = (function(Text) {
 RedmineWikiTabPreview.View = (function(PreviewHtml, Text) {
   var $preview;
 
-  var init = function(preview) {
+  var init = function(preview, original_preview) {
     $preview = preview;
+    $original_preview = original_preview;
     return this;
   };
 
   var update = function() {
-    var html = PreviewHtml.init($preview).get()
+    var html = PreviewHtml.init($original_preview).get()
       .replace(/<legend>[^>]*>/g, '').trim();
     if (html.length === 0) {
       html = Text.NO_PREVIEW;
@@ -170,12 +165,14 @@ RedmineWikiTabPreview.Ajax = (function(View) {
   // Overide main submitPreview method
   var submitPreview = function(url, form, target) {
     $.ajax({
-      url: url,
+      url: url + '&editor_preview_tab=1',
       type: 'post',
       data: $('#' + form).serialize(),
       success: function(data) {
-        $('#' + target).html(data);
-        View.init($preview).update();
+        var preview = $('<div />')
+          .data({type: $preview.data('type')})
+          .html(data);
+        View.init($preview, preview).update();
       }
     });
   };
