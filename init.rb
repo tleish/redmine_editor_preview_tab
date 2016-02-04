@@ -1,6 +1,6 @@
 # encoding: utf-8
 require_dependency 'redmine_editor_preview_tab'
-require_dependency 'redmine_editor_preview_tab/preview_controller_patch'
+require_dependency 'redmine_editor_preview_tab/previews_controller_patch'
 
 Redmine::Plugin.register :redmine_editor_preview_tab do
   name 'Redmine Editor Preview Tab Extension'
