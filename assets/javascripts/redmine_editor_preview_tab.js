@@ -95,6 +95,13 @@ RedmineWikiTabPreview.PreviewHtml = (function(Text) {
   };
 
   var selectorString = function() {
+    if($('.wiki-edit').length === 1){
+      return '.preview';
+    }
+    return selectorMultiplePreview();
+  };
+
+  var selectorMultiplePreview = function() {
     var type = $preview.data('type');
     var legend = Text.PREVIEW_DIVS[type];
     return '.preview:has(legend:contains(' + legend + '))';
@@ -388,13 +395,18 @@ RedmineWikiTabPreview.Style = (function() {
 })();
 
 $(function() {
-  // Set styles
-  var redmineBackgroundColor = $('#header').css('background-color');
-  RedmineWikiTabPreview.Style
-    .add('.jstEditor-preview-header ul li.active a {border-bottom-color: ' + redmineBackgroundColor + ';} ')
-    .write();
 
-  RedmineWikiTabPreview.EnsureAjaxCsrf.init();
-  RedmineWikiTabPreview.EditorEvents.init();
-  RedmineWikiTabPreview.EditorAutoFocus.init();
+  var $preview_links = $('a[accesskey=r]');
+  if($preview_links.length > 0){
+    // Set styles
+    var redmineBackgroundColor = $('#header').css('background-color');
+    RedmineWikiTabPreview.Style
+      .add('.jstEditor-preview-header ul li.active a {border-bottom-color: ' + redmineBackgroundColor + ';} ')
+      .write();
+
+    RedmineWikiTabPreview.EnsureAjaxCsrf.init();
+    RedmineWikiTabPreview.EditorEvents.init();
+    RedmineWikiTabPreview.EditorAutoFocus.init();
+  }
+
 });
