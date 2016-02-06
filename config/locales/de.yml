@@ -1,0 +1,4 @@
+# German strings go here for Rails i18n
+de:
+  label_write: Schreiben
+  label_no_preview: Kein Inhalt für Vorschau vorhanden...
