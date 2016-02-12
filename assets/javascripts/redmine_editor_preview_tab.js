@@ -139,7 +139,9 @@ RedmineWikiTabPreview.Ajax = (function(View) {
 
   var submitPreviewData = function() {
     var ENSURE_PREVIEW = ' ';
-    return $.param(textarea()) + ENSURE_PREVIEW
+    var params = [$.param(attachments())];
+    params.push($.param(textarea()) + ENSURE_PREVIEW);
+    return params.join('&');
   };
 
   var submitPreviewSuccess = function(data) {
@@ -149,6 +151,10 @@ RedmineWikiTabPreview.Ajax = (function(View) {
 
   var textarea = function(){
     return $preview.closest('.jstEditor').find('textarea');
+  };
+
+  var attachments = function(){
+    return $("input[name^='attachments']");
   };
 
   return {
