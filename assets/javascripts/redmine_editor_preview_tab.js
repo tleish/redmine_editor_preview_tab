@@ -297,9 +297,12 @@ RedmineWikiTabPreview.EditorAutoFocus = (function() {
   var focusGeneral = function($this, $editLink) {
     var onclickSuccess = successFunction.toString()
       .replace(/%s/, '#' + formId($this));
-    var onclick = $editLink.attr('onclick')
-      .replace(/}/, ', success: ' + onclickSuccess + '}');
-    $editLink.attr('onclick', onclick);
+	if ($editLink.attr('onclick') != null)  
+    {
+      var onclick = $editLink.attr('onclick')
+        .replace(/}/, ', success: ' + onclickSuccess + '}');
+      $editLink.attr('onclick', onclick);
+    }
   };
 
   var successFunction = function() {
