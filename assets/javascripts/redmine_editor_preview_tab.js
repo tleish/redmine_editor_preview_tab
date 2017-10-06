@@ -277,7 +277,7 @@ RedmineWikiTabPreview.EditorAutoFocus = (function() {
 
   var focus = function() {
     var $this = $(this);
-    var $editLink = $this.find('a:has(img[alt=Edit])');
+    var $editLink = $this.find('a.icon-edit, a:has(img[alt=Edit])');
     if (focusIssueDescription($this, $editLink)) {
       return false;
     }
