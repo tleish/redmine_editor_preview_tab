@@ -265,60 +265,6 @@ RedmineWikiTabPreview.EditorEvents = (function(Elements, TabEvents) {
 })(RedmineWikiTabPreview.Elements, RedmineWikiTabPreview.TabEvents);
 
 /**
- * @class EditorAutoFocus
- * @desc Auto focus on editors when edit button is clicked
- */
-RedmineWikiTabPreview.EditorAutoFocus = (function() {
-  var init = function() {
-    $('.wiki.editable, #all_attributes').each(focus);
-  };
-
-  // private
-
-  var focus = function() {
-    var $this = $(this);
-    var $editLink = $this.find('a.icon-edit, a:has(img[alt=Edit])');
-    if (focusIssueDescription($this, $editLink)) {
-      return false;
-    }
-    focusGeneral($this, $editLink);
-  };
-
-  var focusIssueDescription = function($this, $editLink) {
-    if ($this.attr('id') === 'all_attributes') {
-      $editLink.on('click', function() {
-        $('#issue_description_and_toolbar textarea').focus();
-      });
-      return true;
-    }
-    return false;
-  };
-
-  var focusGeneral = function($this, $editLink) {
-    var onclickSuccess = successFunction.toString()
-      .replace(/%s/, '#' + formId($this));
-    var onclick = $editLink.attr('onclick')
-      .replace(/}/, ', success: ' + onclickSuccess + '}');
-    $editLink.attr('onclick', onclick);
-  };
-
-  var successFunction = function() {
-    $('%s').find('textarea').focus();
-  };
-
-  var formId = function($this) {
-    if ($this.attr('id') === 'all_attributes') {
-      return 'issue_description';
-    }
-    return $this.attr('id').replace(/notes/, 'form');
-  };
-
-  return {
-    init: init
-  };
-})();
-
-/**
  * @class EnsureAjaxCsrf
  * @desc Ensure that CSRF token is include with Ajax calls
  */
@@ -383,7 +329,6 @@ $(function() {
 
     RedmineWikiTabPreview.EnsureAjaxCsrf.init();
     RedmineWikiTabPreview.EditorEvents.init();
-    RedmineWikiTabPreview.EditorAutoFocus.init();
   }
 
 });
