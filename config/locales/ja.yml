@@ -1,0 +1,4 @@
+# Japanease strings go here for Rails i18n
+ja:
+  label_write: 編集
+  label_no_preview: プレビューなし
