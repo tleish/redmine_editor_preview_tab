@@ -1,4 +1,4 @@
 # Brazilian Portuguese strings go here for Rails i18n
-en:
+pt-BR:
   label_write: Escrever
   label_no_preview: Nenhum conteúdo para pré-visualizar
